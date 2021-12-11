@@ -1,5 +1,5 @@
 NAME="python39"
-VERSION=3.9.5
+VERSION=3.9.9
 RELEASE=1
 CATEGORY="Python Interpreters"
 SUMMARY="Py3K language interpreter"
@@ -19,6 +19,7 @@ PATCH_URI="
 00189-use-rpm-wheels.patch
 00251-change-user-install-location.patch
 00328-pyc-timestamp-invalidation-mode.patch
+00371-revert-bpo-1596321-fix-threading-_shutdown-for-the-main-thread-gh-28549-gh-28589.patch
 3.1-enable-new-dtags.patch
 3.4-select-cygwin.patch
 3.4-shebang.patch
