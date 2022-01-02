@@ -1,0 +1,50 @@
+--- origsrc/Python-3.9.0b5/Include/pyerrors.h
++++ src/Python-3.9.0b5/Include/pyerrors.h
+@@ -183,7 +181,6 @@ PyAPI_FUNC(PyObject *) PyErr_FormatV(
+     va_list vargs);
+ #endif
+ 
+-#ifdef MS_WINDOWS
+ PyAPI_FUNC(PyObject *) PyErr_SetFromWindowsErrWithFilename(
+     int ierr,
+     const char *filename        /* decoded from the filesystem encoding */
+@@ -201,7 +198,6 @@ PyAPI_FUNC(PyObject *) PyErr_SetExcFromW
+     const char *filename        /* decoded from the filesystem encoding */
+     );
+ PyAPI_FUNC(PyObject *) PyErr_SetExcFromWindowsErr(PyObject *, int);
+-#endif /* MS_WINDOWS */
+ 
+ #if !defined(Py_LIMITED_API) || Py_LIMITED_API+0 >= 0x03060000
+ PyAPI_FUNC(PyObject *) PyErr_SetImportErrorSubclass(PyObject *, PyObject *,
+--- origsrc/Python-3.11.0a3/Python/errors.c	2021-12-08 23:24:29.000000000 +0100
++++ src/Python-3.11.0a3/Python/errors.c	2022-01-02 03:02:44.310668500 +0100
+@@ -16,11 +16,9 @@ extern char *strerror(int);
+ #endif
+ 
+ #include <ctype.h>
+-#ifdef MS_WINDOWS
+-#  include <windows.h>
+-#  include <winbase.h>
++#  include <w32api/windows.h>
++#  include <w32api/winbase.h>
+ #  include <stdlib.h>             // _sys_nerr
+-#endif
+ 
+ 
+ #ifdef __cplusplus
+@@ -867,7 +865,6 @@ PyErr_SetFromErrno(PyObject *exc)
+     return PyErr_SetFromErrnoWithFilenameObjects(exc, NULL, NULL);
+ }
+ 
+-#ifdef MS_WINDOWS
+ /* Windows specific error code handling */
+ PyObject *PyErr_SetExcFromWindowsErrWithFilenameObject(
+     PyObject *exc,
+@@ -984,7 +981,6 @@ PyObject *PyErr_SetFromWindowsErrWithFil
+     return result;
+ }
+ 
+-#endif /* MS_WINDOWS */
+ 
+ PyObject *
+ PyErr_SetImportErrorSubclass(PyObject *exception, PyObject *msg,

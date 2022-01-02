@@ -1,5 +1,5 @@
-NAME="python39"
-VERSION=3.9.9
+NAME="python311"
+VERSION=3.11.0a3
 RELEASE=1
 CATEGORY="Python Interpreters"
 SUMMARY="Py3K language interpreter"
@@ -10,12 +10,11 @@ clear syntax. It has interfaces to many system calls and libraries, as well as
 to various window systems, and is extensible in C or C++. It is also usable as
 an extension language for applications that need a programmable interface."
 HOMEPAGE="https://www.python.org/"
-SRC_URI="https://www.python.org/ftp/python/${VERSION}/Python-${VERSION}.tar.xz"
+SRC_URI="https://www.python.org/ftp/python/${VERSION%[abr]*}/Python-${VERSION}.tar.xz"
 SRC_DIR="Python-${VERSION}"
 
 PATCH_URI="
 00001-rpath.patch
-00111-no-static-lib.patch
 00189-use-rpm-wheels.patch
 00251-change-user-install-location.patch
 00328-pyc-timestamp-invalidation-mode.patch
@@ -30,35 +29,35 @@ PATCH_URI="
 3.8-distutils-cygwin.patch
 3.8-export-PySignal_SetWakeupFd.patch
 3.8-nis-cygwin.patch
-3.8-parser-cygwin.patch
 3.8-tkinter-cygwin.patch
 3.8-xxsubinterpreters-cygwin.patch
 3.8_socketpair.patch
-tcp-socketmodule.patch
 3.8.7-pep3149-cygwin.patch
 3.8.10-no-mscvrt.patch
 3.8.10-ossaudiodev.patch
 3.8.10-libcrypt2.patch
 3.8.10-casesensitive.patch
+find-lib.patch
+win32-err.patch
 "
 #3.2-getpath-exe-extension.patch
 
-slot=${PV:0:3}
+slot=${PV:0:4}
 pyrootdir=/usr/lib/python${slot}
 pyconfdir=${pyrootdir}/config-${slot}-${ARCH/i6/i3}-cygwin
 pydylddir=${pyrootdir}/lib-dynload
 
 PKG_NAMES="python${slot/.} python${slot/.}-devel python${slot/.}-test python${slot/.}-tkinter idle${slot/.}"
-python39_REQUIRES="binutils libcrypt2" # ctypes.util.find_library
-python39_REQUIRES+=" python39-pip python39-setuptools" # ensurepip
-python39_CONTENTS="
+python311_REQUIRES="binutils libcrypt2" # ctypes.util.find_library
+python311_REQUIRES+=" python311-pip python311-setuptools" # ensurepip
+python311_CONTENTS="
 	--exclude=idle3* --exclude=idlelib
 	--exclude=_tkinter*.dll --exclude=tkinter --exclude=turtle*
 	--exclude=${pyrootdir#/}/*/test
 	--exclude=${pyrootdir#/}/*/tests
 	--exclude=*_test*.dll
-	etc/postinstall/python39.sh
-	etc/preremove/python39.sh
+	etc/postinstall/python311.sh
+	etc/preremove/python311.sh
 	usr/bin/libpython${slot}.dll
 	usr/bin/pydoc${slot}
 	usr/bin/python${slot}.exe
@@ -96,17 +95,18 @@ python39_CONTENTS="
 	${pyrootdir#/}/xmlrpc/
 	${pyrootdir#/}/zoneinfo/
 	${pyrootdir#/}/*.py
+	${pyrootdir#/}/__phello__/
 	${pyrootdir#/}/__pycache__/
 	usr/share/doc/${NAME}
-	usr/share/man/man1/python${slot}.1*
+	usr/share/man/man1/python${slot}.1.gz
 	var/lib/rebase/dynpath.d/${NAME}
 "
-python39_devel_REQUIRES="python${slot/.}-setuptools libcrypt-devel"
-python39_devel_CONTENTS="
+python311_devel_REQUIRES="python${slot/.}-setuptools libcrypt-devel"
+python311_devel_CONTENTS="
 	--exclude=usr/include/python${slot}/pyconfig.h
 	--exclude=${pyconfdir#/}/Makefile
-	etc/postinstall/python39-devel.sh
-	etc/preremove/python39-devel.sh
+	etc/postinstall/python311-devel.sh
+	etc/preremove/python311-devel.sh
 	usr/bin/2to3-${slot}
 	usr/bin/python${slot}-config
 	usr/include/python${slot}/
@@ -115,20 +115,20 @@ python39_devel_CONTENTS="
 	usr/lib/pkgconfig/python-${slot}.pc
 	usr/lib/pkgconfig/python-${slot}-embed.pc
 "
-idle39_SUMMARY="Python ${slot} Tkinter-based IDE"
-idle39_REQUIRES="${NAME}-tkinter"
-idle39_CONTENTS="
+idle311_SUMMARY="Python ${slot} Tkinter-based IDE"
+idle311_REQUIRES="${NAME}-tkinter"
+idle311_CONTENTS="
 	--exclude=idle_test
-	etc/postinstall/idle39.sh
-	etc/preremove/idle39.sh
+	etc/postinstall/idle311.sh
+	etc/preremove/idle311.sh
 	usr/bin/idle${slot}
 	${pyrootdir#/}/idlelib/
 	${pyrootdir#/}/turtledemo/
 	usr/share/applications/idle${slot}.desktop
 	usr/share/icons/hicolor/*/apps/idle${slot//.}.png
 "
-python39_test_SUMMARY="Py3K tests"
-python39_test_CONTENTS="
+python311_test_SUMMARY="Py3K tests"
+python311_test_CONTENTS="
 	--exclude=${pyrootdir#/}/test/__init__.py
 	--exclude=${pyrootdir#/}/test/__pycache__/__init__.*
 	--exclude=${pyrootdir#/}/test/support
@@ -137,20 +137,19 @@ python39_test_CONTENTS="
 	${pyrootdir#/}/distutils/tests/
 	${pyrootdir#/}/idlelib/idle_test/
 	${pyrootdir#/}/lib2to3/tests/
-	${pyrootdir#/}/sqlite3/test/
 	${pyrootdir#/}/test/
 	${pyrootdir#/}/tkinter/test/
 	${pyrootdir#/}/unittest/test/
 "
-python39_tkinter_SUMMARY="Py3K Tkinter GUI module"
-python39_tkinter_REQUIRES="tcl-tix"
-python39_tkinter_CONTENTS="
+python311_tkinter_SUMMARY="Py3K Tkinter GUI module"
+python311_tkinter_REQUIRES="tcl-tix"
+python311_tkinter_CONTENTS="
 	--exclude=test ${pydylddir#/}/_tkinter*
 	${pyrootdir#/}/tkinter/
 	${pyrootdir#/}/turtle.py
 	${pyrootdir#/}/__pycache__/turtle.*
 "
-PKG_IGNORE="usr/share/man/man1/python3.1*"
+PKG_IGNORE="usr/share/man/man1/python3.1.gz"
 
 REQUIRES_EXCLUDE_FROM="*/distutils/command/*:*/lib2to3/tests/data/*:*/test/*"
 
