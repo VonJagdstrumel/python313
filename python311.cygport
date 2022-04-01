@@ -1,5 +1,5 @@
 NAME="python311"
-VERSION=3.11.0a6
+VERSION=3.11.0a3
 RELEASE=1
 CATEGORY="Python Interpreters"
 SUMMARY="Py3K language interpreter"
