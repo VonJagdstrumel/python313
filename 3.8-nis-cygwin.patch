@@ -1,11 +1,11 @@
 --- origsrc/Python-3.11.0a3/configure	2021-12-08 23:24:29.000000000 +0100
 +++ src/Python-3.11.0a3/configure	2022-01-02 02:43:56.315588600 +0100
 @@ -21164,7 +21164,7 @@ case $ac_sys_system in #(
-   Darwin) :
+   Darwin/*) :
      py_stdlib_not_available="ossaudiodev spwd" ;; #(
-   CYGWIN*) :
+   CYGWIN*/*) :
 -    py_stdlib_not_available="_scproxy nis" ;; #(
 +    py_stdlib_not_available="_scproxy" ;; #(
-   QNX*) :
+   QNX*/*) :
      py_stdlib_not_available="_scproxy nis" ;; #(
-   FreeBSD*) :
+   FreeBSD*/*) :
