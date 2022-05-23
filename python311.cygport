@@ -1,5 +1,5 @@
 NAME="python311"
-VERSION=3.11.0a3
+VERSION=3.11.0rc1
 RELEASE=1
 CATEGORY="Python Interpreters"
 SUMMARY="Py3K language interpreter"
@@ -29,7 +29,6 @@ PATCH_URI="
 3.8-distutils-cygwin.patch
 3.8-export-PySignal_SetWakeupFd.patch
 3.8-nis-cygwin.patch
-3.8-tkinter-cygwin.patch
 3.8-xxsubinterpreters-cygwin.patch
 3.8_socketpair.patch
 3.8.7-pep3149-cygwin.patch
@@ -38,7 +37,6 @@ PATCH_URI="
 3.8.10-libcrypt2.patch
 3.8.10-casesensitive.patch
 3.9-win32-err.patch
-3.11-find-lib.patch
 "
 #3.2-getpath-exe-extension.patch
 
@@ -82,11 +80,13 @@ python311_CONTENTS="
 	${pyrootdir#/}/logging/
 	${pyrootdir#/}/multiprocessing/
 	${pyrootdir#/}/pydoc_data/
+	${pyrootdir#/}/re/
 	${pyrootdir#/}/site-packages/
 	${pyrootdir#/}/sqlite3/
 	${pyrootdir#/}/test/__init__.py
 	${pyrootdir#/}/test/__pycache__/__init__.*
 	${pyrootdir#/}/test/support/
+	${pyrootdir#/}/tomllib/
 	${pyrootdir#/}/unittest/
 	${pyrootdir#/}/urllib/
 	${pyrootdir#/}/venv/

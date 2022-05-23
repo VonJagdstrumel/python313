@@ -1,11 +1,11 @@
---- origsrc/Python-3.11.0a3/configure	2021-12-08 23:24:29.000000000 +0100
-+++ src/Python-3.11.0a3/configure	2022-01-02 02:43:56.315588600 +0100
-@@ -21164,7 +21164,7 @@ case $ac_sys_system in #(
-   Darwin) :
-     py_stdlib_not_available="ossaudiodev spwd" ;; #(
-   CYGWIN*) :
--    py_stdlib_not_available="_scproxy nis" ;; #(
-+    py_stdlib_not_available="_scproxy" ;; #(
-   QNX*) :
-     py_stdlib_not_available="_scproxy nis" ;; #(
-   FreeBSD*) :
+--- origsrc/Python-3.11.0b1/configure.ac	2022-05-23 19:26:45.971287900 +0200
++++ src/Python-3.11.0b1/configure.ac	2022-05-23 19:58:34.965242400 +0200
+@@ -6646,7 +6646,7 @@ AS_CASE([$ac_sys_system],
+   [AIX], [PY_STDLIB_MOD_SET_NA([_scproxy], [spwd])],
+   [VxWorks*], [PY_STDLIB_MOD_SET_NA([_scproxy], [_crypt], [termios], [grp])],
+   [Darwin], [PY_STDLIB_MOD_SET_NA([ossaudiodev], [spwd])],
+-  [CYGWIN*], [PY_STDLIB_MOD_SET_NA([_scproxy], [nis])],
++  [CYGWIN*], [PY_STDLIB_MOD_SET_NA([_scproxy])],
+   [QNX*], [PY_STDLIB_MOD_SET_NA([_scproxy], [nis])],
+   [FreeBSD*], [PY_STDLIB_MOD_SET_NA([_scproxy], [spwd])],
+   [Emscripten|WASI], [

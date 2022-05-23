@@ -9,9 +9,9 @@
      ".dll",
  #else  /* !__CYGWIN__ */
      "." SOABI ".so",
---- origsrc/Python-3.8.7/configure.ac	2021-01-12 11:57:01.476420200 +0100
-+++ src/Python-3.8.7/configure.ac	2021-01-12 14:49:06.961841600 +0100
-@@ -845,6 +845,14 @@ cat >> conftest.c <<EOF
+--- origsrc/Python-3.11.0b1/configure.ac	2022-05-23 18:43:15.849895100 +0200
++++ src/Python-3.11.0b1/configure.ac	2022-05-23 18:47:45.802287100 +0200
+@@ -968,6 +968,14 @@ cat > conftest.c <<EOF
          darwin
  #elif defined(__VXWORKS__)
          vxworks
@@ -23,6 +23,6 @@
 +# else
 +#   error unknown platform triplet
 +# endif
- #else
- # error unknown platform triplet
- #endif
+ #elif defined(__wasm32__)
+ #  if defined(__EMSCRIPTEN__)
+ 	wasm32-emscripten
