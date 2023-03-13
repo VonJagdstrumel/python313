@@ -26,8 +26,8 @@ index 2a140a2624..5bd16a6c59 100644
  
  __all__ = ["version", "bootstrap"]
  _PACKAGE_NAMES = ('setuptools', 'pip')
--_SETUPTOOLS_VERSION = "63.2.0"
--_PIP_VERSION = "22.2.2"
+-_SETUPTOOLS_VERSION = "65.5.0"
+-_PIP_VERSION = "22.3.1"
 +
 +_WHEEL_DIR = "/usr/share/python-wheels/"
 +
