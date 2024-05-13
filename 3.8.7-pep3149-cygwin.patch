@@ -9,20 +9,20 @@
      ".dll",
  #else  /* !__CYGWIN__ */
      "." SOABI ".so",
---- origsrc/Python-3.11.0b1/configure.ac	2022-05-23 18:43:15.849895100 +0200
-+++ src/Python-3.11.0b1/configure.ac	2022-05-23 18:47:45.802287100 +0200
-@@ -968,6 +968,14 @@ cat > conftest.c <<EOF
-         darwin
+--- origsrc/Python-3.11.0b1/Misc/platform_triplet.c	2022-05-23 18:43:15.849895100 +0200
++++ src/Python-3.11.0b1/Misc/platform_triplet.c	2022-05-23 18:47:45.802287100 +0200
+@@ -968,6 +968,14 @@
+ #  endif
  #elif defined(__VXWORKS__)
-         vxworks
+ PLATFORM_TRIPLET=vxworks
 +#elif defined(__CYGWIN__)
 +# if defined(__x86_64__)
-+        x86_64-cygwin
++PLATFORM_TRIPLET=x86_64-cygwin
 +# elif defined(__i386__)
-+        i386-cygwin
++PLATFORM_TRIPLET=i386-cygwin
 +# else
 +#   error unknown platform triplet
 +# endif
  #elif defined(__wasm32__)
  #  if defined(__EMSCRIPTEN__)
- 	wasm32-emscripten
+ PLATFORM_TRIPLET=wasm32-emscripten

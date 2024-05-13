@@ -19,9 +19,9 @@
 --- origsrc/Python-3.11.0a3/Python/errors.c	2021-12-08 23:24:29.000000000 +0100
 +++ src/Python-3.11.0a3/Python/errors.c	2022-01-02 03:02:44.310668500 +0100
 @@ -16,11 +16,9 @@ extern char *strerror(int);
- #endif
+ #include "pycore_sysmodule.h"     // _PySys_Audit()
+ #include "pycore_traceback.h"     // _PyTraceBack_FromFrame()
  
- #include <ctype.h>
 -#ifdef MS_WINDOWS
 -#  include <windows.h>
 -#  include <winbase.h>
@@ -30,8 +30,8 @@
  #  include <stdlib.h>             // _sys_nerr
 -#endif
  
- 
- #ifdef __cplusplus
+ /* Forward declarations */
+ static PyObject *
 @@ -867,7 +865,6 @@ PyErr_SetFromErrno(PyObject *exc)
      return PyErr_SetFromErrnoWithFilenameObjects(exc, NULL, NULL);
  }
@@ -46,5 +46,5 @@
  
 -#endif /* MS_WINDOWS */
  
- PyObject *
- PyErr_SetImportErrorSubclass(PyObject *exception, PyObject *msg,
+ static PyObject *
+ _PyErr_SetImportErrorSubclassWithNameFrom(
