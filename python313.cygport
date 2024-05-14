@@ -1,5 +1,5 @@
-NAME="python311"
-VERSION=3.11.2
+NAME="python313"
+VERSION=3.13.0b1
 RELEASE=1
 CATEGORY="Python Interpreters"
 SUMMARY="Py3K language interpreter"
@@ -14,31 +14,22 @@ SRC_URI="https://www.python.org/ftp/python/${VERSION%[abr]*}/Python-${VERSION}.t
 SRC_DIR="Python-${VERSION}"
 
 PATCH_URI="
-00001-rpath.patch
-00189-use-rpm-wheels.patch
 00251-change-user-install-location.patch
-00328-pyc-timestamp-invalidation-mode.patch
-00371-revert-bpo-1596321-fix-threading-_shutdown-for-the-main-thread-gh-28549-gh-28589.patch
-3.1-enable-new-dtags.patch
 3.4-select-cygwin.patch
-3.4-shebang.patch
 3.6.12-socketmodule.patch
 3.7-ctypes-cygwin.patch
 3.7-ftm.patch
-3.8-dbm-cygwin.patch
 3.8-distutils-cygwin.patch
 3.8-export-PySignal_SetWakeupFd.patch
-3.8-nis-cygwin.patch
-3.8-xxsubinterpreters-cygwin.patch
 3.8_socketpair.patch
 3.8.7-pep3149-cygwin.patch
 3.8.10-no-mscvrt.patch
-3.8.10-ossaudiodev.patch
 3.8.10-libcrypt2.patch
 3.8.10-casesensitive.patch
 3.9-win32-err.patch
+3.13-mimalloc-cygwin.patch
+3.13-clockid-cygwin.patch
 "
-#3.2-getpath-exe-extension.patch
 
 slot=${PV:0:4}
 pyrootdir=/usr/lib/python${slot}
@@ -46,21 +37,22 @@ pyconfdir=${pyrootdir}/config-${slot}-${ARCH/i6/i3}-cygwin
 pydylddir=${pyrootdir}/lib-dynload
 
 PKG_NAMES="python${slot/.} python${slot/.}-devel python${slot/.}-test python${slot/.}-tkinter idle${slot/.}"
-python311_REQUIRES="binutils libcrypt2" # ctypes.util.find_library
-python311_REQUIRES+=" python311-pip python311-setuptools" # ensurepip
-python311_CONTENTS="
+python313_REQUIRES="binutils libcrypt2" # ctypes.util.find_library
+python313_REQUIRES+=" python313-pip python313-setuptools" # ensurepip
+python313_CONTENTS="
 	--exclude=idle3* --exclude=idlelib
 	--exclude=_tkinter*.dll --exclude=tkinter --exclude=turtle*
 	--exclude=${pyrootdir#/}/*/test
 	--exclude=${pyrootdir#/}/*/tests
 	--exclude=*_test*.dll
-	etc/postinstall/python311.sh
-	etc/preremove/python311.sh
+	etc/postinstall/python313.sh
+	etc/preremove/python313.sh
 	usr/bin/libpython${slot}.dll
 	usr/bin/pydoc${slot}
 	usr/bin/python${slot}.exe
 	usr/include/python${slot}/pyconfig.h
 	${pydylddir#/}/
+	${pyrootdir#/}/_pyrepl/
 	${pyrootdir#/}/asyncio/
 	${pyrootdir#/}/collections/
 	${pyrootdir#/}/concurrent/
@@ -68,7 +60,6 @@ python311_CONTENTS="
 	${pyrootdir#/}/ctypes/
 	${pyrootdir#/}/curses/
 	${pyrootdir#/}/dbm/
-	${pyrootdir#/}/distutils/
 	${pyrootdir#/}/email/
 	${pyrootdir#/}/encodings/
 	${pyrootdir#/}/ensurepip/
@@ -76,15 +67,15 @@ python311_CONTENTS="
 	${pyrootdir#/}/http/
 	${pyrootdir#/}/importlib/
 	${pyrootdir#/}/json/
-	${pyrootdir#/}/lib2to3/
 	${pyrootdir#/}/logging/
 	${pyrootdir#/}/multiprocessing/
+	${pyrootdir#/}/pathlib/
 	${pyrootdir#/}/pydoc_data/
 	${pyrootdir#/}/re/
 	${pyrootdir#/}/site-packages/
 	${pyrootdir#/}/sqlite3/
+	${pyrootdir#/}/sysconfig/
 	${pyrootdir#/}/test/__init__.py
-	${pyrootdir#/}/test/__pycache__/__init__.*
 	${pyrootdir#/}/test/support/
 	${pyrootdir#/}/tomllib/
 	${pyrootdir#/}/unittest/
@@ -93,6 +84,7 @@ python311_CONTENTS="
 	${pyrootdir#/}/wsgiref/
 	${pyrootdir#/}/xml/
 	${pyrootdir#/}/xmlrpc/
+	${pyrootdir#/}/zipfile/
 	${pyrootdir#/}/zoneinfo/
 	${pyrootdir#/}/*.py
 	${pyrootdir#/}/__phello__/
@@ -101,13 +93,12 @@ python311_CONTENTS="
 	usr/share/man/man1/python${slot}.1.gz
 	var/lib/rebase/dynpath.d/${NAME}
 "
-python311_devel_REQUIRES="python${slot/.}-setuptools libcrypt-devel"
-python311_devel_CONTENTS="
+python313_devel_REQUIRES="python${slot/.}-setuptools libcrypt-devel"
+python313_devel_CONTENTS="
 	--exclude=usr/include/python${slot}/pyconfig.h
 	--exclude=${pyconfdir#/}/Makefile
-	etc/postinstall/python311-devel.sh
-	etc/preremove/python311-devel.sh
-	usr/bin/2to3-${slot}
+	etc/postinstall/python313-devel.sh
+	etc/preremove/python313-devel.sh
 	usr/bin/python${slot}-config
 	usr/include/python${slot}/
 	${pyconfdir#/}/
@@ -115,43 +106,37 @@ python311_devel_CONTENTS="
 	usr/lib/pkgconfig/python-${slot}.pc
 	usr/lib/pkgconfig/python-${slot}-embed.pc
 "
-idle311_SUMMARY="Python ${slot} Tkinter-based IDE"
-idle311_REQUIRES="${NAME}-tkinter"
-idle311_CONTENTS="
+idle313_SUMMARY="Python ${slot} Tkinter-based IDE"
+idle313_REQUIRES="${NAME}-tkinter"
+idle313_CONTENTS="
 	--exclude=idle_test
-	etc/postinstall/idle311.sh
-	etc/preremove/idle311.sh
+	etc/postinstall/idle313.sh
+	etc/preremove/idle313.sh
 	usr/bin/idle${slot}
 	${pyrootdir#/}/idlelib/
 	${pyrootdir#/}/turtledemo/
 	usr/share/applications/idle${slot}.desktop
 	usr/share/icons/hicolor/*/apps/idle${slot//.}.png
 "
-python311_test_SUMMARY="Py3K tests"
-python311_test_CONTENTS="
+python313_test_SUMMARY="Py3K tests"
+python313_test_CONTENTS="
 	--exclude=${pyrootdir#/}/test/__init__.py
 	--exclude=${pyrootdir#/}/test/__pycache__/__init__.*
 	--exclude=${pyrootdir#/}/test/support
 	${pydylddir#/}/*_test*.dll
-	${pyrootdir#/}/ctypes/test/
-	${pyrootdir#/}/distutils/tests/
 	${pyrootdir#/}/idlelib/idle_test/
-	${pyrootdir#/}/lib2to3/tests/
 	${pyrootdir#/}/test/
-	${pyrootdir#/}/tkinter/test/
-	${pyrootdir#/}/unittest/test/
 "
-python311_tkinter_SUMMARY="Py3K Tkinter GUI module"
-python311_tkinter_REQUIRES="tcl-tix"
-python311_tkinter_CONTENTS="
+python313_tkinter_SUMMARY="Py3K Tkinter GUI module"
+python313_tkinter_REQUIRES="tcl-tix"
+python313_tkinter_CONTENTS="
 	--exclude=test ${pydylddir#/}/_tkinter*
 	${pyrootdir#/}/tkinter/
 	${pyrootdir#/}/turtle.py
-	${pyrootdir#/}/__pycache__/turtle.*
 "
 PKG_IGNORE="usr/share/man/man1/python3.1.gz"
 
-REQUIRES_EXCLUDE_FROM="*/distutils/command/*:*/lib2to3/tests/data/*:*/test/*"
+REQUIRES_EXCLUDE_FROM="*/distutils/command/*:*/test/*"
 
 DIFF_EXCLUDES=" *.pickle data pyconfig.h.in"
 DISTCLEANFILES="Lib/ensurepip/_bundled/*.whl"
@@ -165,7 +150,6 @@ CYGCONF_ARGS="
 	--with-libc=
 	--with-libm=
 	--with-system-expat
-	--with-system-ffi
 	--without-ensurepip
 	ac_cv_func_bind_textdomain_codeset=yes
 "
@@ -206,7 +190,6 @@ src_install() {
 	echo "# Install this package as a python devel alternative.
 # PYTHON_VERSION=${slot}
 # PYTHON_PRIORITY=${slot/.}
-/usr/sbin/alternatives --install /usr/bin/2to3 2to3 /usr/bin/2to3-${slot} ${slot/.}
 /usr/sbin/alternatives --install /usr/bin/python3-config python3-config /usr/bin/python${slot}-config ${slot/.}
 " > python${slot/.}-devel.sh
 
@@ -226,7 +209,6 @@ src_install() {
 " > python${slot/.}.sh
 
 	echo "# Remove this package as a python alternative.
-/usr/sbin/alternatives --remove 2to3 /usr/bin/2to3-${slot}
 /usr/sbin/alternatives --remove python3-config /usr/bin/python${slot}-config
 " > python${slot/.}-devel.sh
 

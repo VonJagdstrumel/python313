@@ -1,0 +1,11 @@
+--- origsrc/Python-3.13.0b1/Modules/timemodule.c	2024-05-08 11:21:00.000000000 +0200
++++ src/Python-3.13.0b1/Modules/timemodule.c	2024-05-14 03:53:41.447604700 +0200
+@@ -188,7 +188,7 @@ time_clockid_converter(PyObject *obj, cl
+ #ifdef _AIX
+     long long clk_id = PyLong_AsLongLong(obj);
+ #else
+-    int clk_id = PyLong_AsInt(obj);
++    unsigned long clk_id = PyLong_AsUnsignedLong(obj);
+ #endif
+     if (clk_id == -1 && PyErr_Occurred()) {
+         PyErr_Format(PyExc_TypeError,
