@@ -1,5 +1,5 @@
 NAME="python313"
-VERSION=3.13.0b1
+VERSION=3.13.0b4
 RELEASE=1
 CATEGORY="Python Interpreters"
 SUMMARY="Py3K language interpreter"
