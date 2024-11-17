@@ -1,5 +1,5 @@
 NAME="python313"
-VERSION=3.13.0rc1
+VERSION=3.13.0
 RELEASE=1
 CATEGORY="Python Interpreters"
 SUMMARY="Py3K language interpreter"
@@ -20,7 +20,6 @@ PATCH_URI="
 3.7-ctypes-cygwin.patch
 3.7-ftm.patch
 3.8-distutils-cygwin.patch
-3.8-export-PySignal_SetWakeupFd.patch
 3.8.7-pep3149-cygwin.patch
 3.8.10-no-mscvrt.patch
 3.8.10-libcrypt2.patch
@@ -149,6 +148,7 @@ CYGCONF_ARGS="
 	--with-libc=
 	--with-libm=
 	--with-system-expat
+	--with-wheel-pkg-dir=/usr/share/python-wheels/
 	--without-ensurepip
 	ac_cv_func_bind_textdomain_codeset=yes
 "
@@ -217,12 +217,11 @@ src_install() {
 
 }
 
-src_check(){
+src_test(){
 	cd ${B}
 	LD_LIBRARY_PATH=${B}  ${B}/python.exe -m test.regrtest \
 		--slowest -j0 \
 		--timeout=900 \
-		-x test_distutils \
 		-x test_gdb
 
 }
